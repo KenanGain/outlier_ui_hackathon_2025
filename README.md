@@ -199,7 +199,7 @@ Made with ❤️ by **Kenan Gain**
 - 💼 **LinkedIn**: [Kenan Gain](https://www.linkedin.com/in/kenan-gain-33048518a/)
 - 📷 **Instagram**: [@knightgamer87](https://www.instagram.com/knightgamer87/)
 - 🐦 **Twitter/X**: [@KenanGain](https://twitter.com/KenanGain)
-- 🎧 **Spotify Playlist**: [My Creator Playlist](https://open.spotify.com/playlist/xyz) *(replace with real link if needed)*
+
 
 Happy hacking, Kenan! 💻🚀
 
