@@ -4,188 +4,42 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.2+-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3+-06B6D4?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-A modern financial technology platform featuring AI-powered analytics, blockchain security, and real-time market insights. Built with cutting-edge web technologies for optimal performance and user experience.
-
 ![Platform Preview](public/preview.jpg)
 
-## Features
+## ✨ Features
 
 - **AI-Powered Analytics**: Real-time market predictions and financial insights
 - **Blockchain Security**: Immutable transaction records with 256-bit encryption
-- **3D Visualization**: Interactive financial data representations using Three.js
-- **Responsive Design**: Optimized for all screen sizes and devices
-- **Dark/Light Mode**: Automatic system preference detection with manual override
-- **Performance**: 95+ Lighthouse score with optimized assets and code splitting
+- **3D Visualization**: Interactive financial data using Three.js
+- **Responsive Design**: Optimized for all devices
+- **Dark/Light Mode**: System preference detection with manual override
+- **Performance**: 95+ Lighthouse score with optimized assets
 
-## Technologies Used
+## 🛠 Technologies
 
-- **Next.js 14** - React framework with App Router and Server Components
-- **TypeScript** - Type-safe JavaScript implementation
-- **Tailwind CSS** - Utility-first CSS framework with custom themes
-- **Framer Motion** - Production-ready animations and interactions
-- **React Three Fiber** - 3D visualization library for WebGL
-- **Lucide React** - Beautiful SVG icons for interface elements
-- **Geist Font** - Modern typeface optimized for readability
-- **Radix UI** - Accessible UI component primitives
-- **Shadcn/ui** - Re-usable component library
+- **Frontend**: 
+  - Next.js 14 (App Router)
+  - TypeScript 5.2+
+  - Tailwind CSS 3.3+
+  - Framer Motion 10.12+
+- **3D Graphics**:
+  - React Three Fiber 8.13+
+  - Drei 9.77+
+- **UI**:
+  - Lucide React 0.3+
+  - Geist Font 1.0+
+  - Radix UI 1.0+
+  - Shadcn/ui 0.5+
 
-## Installation
+## 🚀 Installation
 
 ### Prerequisites
+- Node.js ≥18.15.0
+- npm ≥9.5.0
+- Git ≥2.34.1
 
-- Node.js 18.15.0 or higher
-- npm 9.5.0 or higher
-- Git 2.34.1 or higher
-
-### Setup Instructions
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/fintech-platform.git
-   cd fintech-platform
-Install dependencies:
-
-bash
+```bash
+git clone https://github.com/your-username/fintech-platform.git
+cd fintech-platform
 npm install
-# or
-yarn install
-# or
-pnpm install
-Set up environment variables (create .env.local file):
-
-env
-NEXT_PUBLIC_API_URL=https://api.your-finance-platform.com/v1
-NEXT_PUBLIC_ANALYTICS_ID=UA-XXXXX-Y
-Start the development server:
-
-bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-Open http://localhost:3000 in your browser.
-
-Project Structure
-bash
-├── app
-│   ├── page.tsx          # Main application page
-│   └── layout.tsx        # Root layout component
-├── components
-│   ├── main              # Core page components
-│   └── magicui          # Animated UI components
-├── public
-│   └── assets           # Static images and fonts
-├── styles
-│   └── globals.css      # Global CSS styles
-├── tailwind.config.js   # Tailwind configuration
-├── tsconfig.json        # TypeScript configuration
-└── package.json         # Project dependencies
-Configuration
-Tailwind CSS
-Customize the design system in tailwind.config.js:
-
-javascript
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          DEFAULT: '#0D9488',
-          dark: '#0F766E'
-        },
-        secondary: {
-          DEFAULT: '#1E67C6',
-          dark: '#1D4ED8'
-        }
-      }
-    }
-  }
-}
-Animation Settings
-Modify motion configurations in component files:
-
-tsx
-// Example Framer Motion configuration
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ 
-    duration: 0.8,
-    ease: "easeInOut"
-  }}
->
-Deployment
-Vercel (Recommended)
-Push your code to a GitHub repository
-
-Create new project in Vercel dashboard
-
-Import your GitHub repository
-
-Add environment variables
-
-Deploy!
-
-Deploy with Vercel
-
-Build for Production
-bash
-npm run build
-# or
-yarn build
-# or
-pnpm build
-Run Production Server
-bash
-npm start
-# or
-yarn start
-# or
-pnpm start
-Contributing
-Fork the repository
-
-Create feature branch:
-
-bash
-git checkout -b feature/new-component
-Commit changes:
-
-bash
-git commit -m 'Add new financial component'
-Push to branch:
-
-bash
-git push origin feature/new-component
-Open a Pull Request
-
-Please follow our Code of Conduct and ensure all tests pass before submitting.
-
-License
-Distributed under the MIT License. See LICENSE for more information.
-
-Acknowledgments
-Vercel for Next.js framework
-
-React Three Fiber community
-
-Framer Motion team
-
-Financial data providers
-
-Open source contributors
-
-
-This README includes:
-
-1. Badges for key technologies
-2. Feature overview with preview image
-3. Detailed technology stack
-4. Step-by-step installation guide
-5. Project structure explanation
-6. Configuration examples
-7. Deployment instructions for Vercel
-8. Contribution guidelines
-9. License information
-10. Acknowledgments section
