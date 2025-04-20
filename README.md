@@ -200,6 +200,7 @@ Let me know if you want to:
 
 
 
+```
 ## 🧑‍💻 Author & Socials
 
 Made with ❤️ by **Kenan Gain**
