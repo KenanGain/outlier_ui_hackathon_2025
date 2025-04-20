@@ -1,0 +1,1012 @@
+'use client';
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
+import Navbar from "@/components/main/Navbar";
+import FintechHero from "@/components/main/FintechHero";
+import { FintechBenefits } from "@/components/main/Benefit";
+import { FintechFeaturesSection } from "@/components/main/FintechFeature";
+import ForexPlatforms from "@/components/main/forex";
+
+export default function Home() {
+  // References for scroll-based animations
+  const mainRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const benefitsRef = useRef<HTMLDivElement>(null);
+  const partnersRef = useRef<HTMLDivElement>(null);
+  const forexRef = useRef<HTMLDivElement>(null);
+  // Main scroll progress
+  const { scrollYProgress } = useScroll();
+  
+  // Benefits section scroll effects
+  const { scrollYProgress: benefitsScrollProgress } = useScroll({
+    target: benefitsRef,
+    offset: ["start end", "end start"]
+  });
+    // Add forex scroll progress
+    const { scrollYProgress: forexScrollProgress } = useScroll({
+      target: forexRef,
+      offset: ["start end", "end start"]
+    });
+  // Features section scroll effects
+  const { scrollYProgress: featuresScrollProgress } = useScroll({
+    target: featuresRef,
+    offset: ["start end", "end start"]
+  });
+    // Add blur transforms
+    const heroBlur = useTransform(scrollYProgress, [0, 0.2], ['blur(0px)', 'blur(20px)']);
+    const featuresBlur = useTransform(featuresScrollProgress, [0, 0.2], ['blur(20px)', 'blur(0px)']);
+    const forexBlur = useTransform(forexScrollProgress, [0, 0.2], ['blur(20px)', 'blur(0px)']);
+    const benefitsBlur = useTransform(benefitsScrollProgress, [0, 0.2], ['blur(20px)', 'blur(0px)']);
+    const partnersBlur = useTransform(scrollYProgress, [0.5, 0.7], ['blur(20px)', 'blur(0px)']);
+  
+  // Transform values for parallax effects
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const benefitsOpacity = useTransform(benefitsScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const partnersOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]);
+  const featuresOpacity = useTransform(featuresScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  
+  // Y-axis transformations for section transitions
+  const heroY = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
+  const benefitsY = useTransform(benefitsScrollProgress, [0, 0.2], [50, 0]);
+  const featuresY = useTransform(featuresScrollProgress, [0, 0.2], [50, 0]);
+  return (
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden" ref={mainRef}>
+      <Navbar />
+      
+      <main className="flex-1 w-full">
+        {/* Hero Section with Fade Out */}
+        <motion.div 
+          style={{ opacity: heroOpacity, y: heroY }}
+          className="h-full w-full "
+        >
+          <FintechHero />
+          
+          {/* Gradient Dissolve Overlay */}
+          <motion.div 
+            style={{ opacity: useTransform(scrollYProgress, [0.05, 0.2], [0, 1]) }}
+            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-950 dark:from-gray-950 to-transparent pointer-events-none"
+          />
+        </motion.div>
+        <motion.section 
+          ref={featuresRef}
+          style={{ 
+            opacity: featuresOpacity,
+            y: featuresY
+          }}
+          className="relative bg-gray-50 dark:bg-gray-900 z-10"
+        >
+          <FintechFeaturesSection />
+        </motion.section>
+        {/* New Forex Section */}
+        <motion.section 
+          ref={forexRef}
+          style={{
+            opacity: useTransform(forexScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]),
+            y: useTransform(forexScrollProgress, [0, 0.2], [50, 0]),
+            filter: forexBlur
+          }}
+          className="relative py-24 bg-slate-100 dark:bg-slate-950 z-10"
+        >
+          <ForexPlatforms />
+        </motion.section>
+
+        
+
+        {/* Benefits Section with Fade In */}
+        <motion.section 
+          ref={benefitsRef}
+          style={{ 
+            opacity: benefitsOpacity,
+            y: benefitsY
+          }}
+          className="relative py-24 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 z-10"
+        >
+          <div className="text-center  px-4">
+            <motion.h2 
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7 }}
+              className="text-4xl font-bold mb-6 text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400"
+            >
+              Enterprise-Grade Financial Infrastructure
+            </motion.h2>
+            <motion.p
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="text-gray-300 max-w-2xl mx-auto text-lg"
+            >
+              Secure, compliant, and scalable solutions for modern finance
+            </motion.p>
+          </div>
+          
+          
+          <FintechBenefits />
+          
+          {/* Bottom Gradient Transition */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-950/50 to-transparent" />
+        </motion.section>
+
+        {/* Partners Section with Parallax Gradient */}
+        <motion.section 
+          ref={partnersRef}
+          className="relative min-h-screen flex items-center justify-center"
+        >
+          {/* Animated Background Gradient */}
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-tr from-blue-600 to-cyan-500"
+            style={{
+              opacity: partnersOpacity,
+              backgroundSize: useTransform(scrollYProgress, [0.5, 1], ['100%', '120%']),
+              backgroundPosition: useTransform(scrollYProgress, [0.5, 1], ['center', 'center bottom'])
+            }}
+          >
+            {/* Animated Blur Elements */}
+            <motion.div 
+              className="absolute inset-0 flex items-center justify-center overflow-hidden opacity-70"
+              style={{
+                filter: useTransform(scrollYProgress, [0.5, 0.7], ['blur(50px)', 'blur(80px)'])
+              }}
+            >
+              {[...Array(5)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute rounded-full bg-white/30"
+                  style={{
+                    width: (i + 1) * 150,
+                    height: (i + 1) * 150,
+                    x: useTransform(scrollYProgress, [0.5, 0.9], [0, (i - 2) * 50]),
+                    y: useTransform(scrollYProgress, [0.5, 0.9], [0, (i - 2) * -30]),
+                  }}
+                />
+              ))}
+            </motion.div>
+          </motion.div>
+          
+          {/* Content Overlay */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 py-24 text-center">
+            <motion.h3 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl font-bold mb-12 text-white drop-shadow-lg"
+            >
+              Trusted by Financial Institutions Worldwide
+            </motion.h3>
+            
+            {/* Partner Logos */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+              {[
+                'Global Banks', 
+                'Insurance Companies', 
+                'Fintech Startups', 
+                'Government Agencies'
+              ].map((item, index) => (
+                <motion.div
+                  key={item}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: index * 0.15, duration: 0.6 }}
+                  className="bg-white/10 p-6 rounded-xl backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300"
+                >
+                  <div className="h-16 flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-white/20" />
+                  </div>
+                  <span className="text-white font-medium">{item}</span>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* CTA Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="mt-20 p-8 rounded-2xl backdrop-blur-lg bg-white/10 max-w-3xl mx-auto border border-white/20"
+            >
+              <h4 className="text-2xl font-bold text-white mb-4">Ready to Transform Your Financial Infrastructure?</h4>
+              <p className="text-gray-100 mb-8">Join thousands of institutions worldwide leveraging our cutting-edge platform</p>
+              <button type="button" className="bg-white text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-300">
+                Schedule a Demo
+              </button>
+            </motion.div>
+          </div>
+        </motion.section>
+        
+        {/* Features Highlight Section */}
+        <section className="bg-gray-50 dark:bg-gray-900 py-24">
+          <div className="max-w-7xl mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+                Cutting-Edge Financial Technology
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Our platform combines the latest in fintech innovation with enterprise-grade security
+              </p>
+            </motion.div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: 'AI-Powered Analytics',
+                  description: 'Real-time market insights and predictive models',
+                  icon: '📊'
+                },
+                {
+                  title: 'Blockchain Security',
+                  description: 'Immutable transaction records with end-to-end encryption',
+                  icon: '🔐'
+                },
+                {
+                  title: 'Global Compliance',
+                  description: 'Automated regulatory reporting across jurisdictions',
+                  icon: '🌐'
+                }
+              ].map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ y: 30, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.2, duration: 0.5 }}
+                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700"
+                >
+                  <div className="text-4xl mb-4">{feature.icon}</div>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{feature.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer with Gradient */}
+      <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-gray-300 py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <h4 className="text-xl font-bold mb-4 text-white">FintechApp</h4>
+              <p className="text-sm text-gray-400">Next-generation financial infrastructure for the digital economy</p>
+            </div>
+            {['Products', 'Solutions', 'Resources', 'Company'].map((category) => (
+              <div key={category}>
+                <h5 className="text-white font-medium mb-4">{category}</h5>
+                <ul className="space-y-2">
+                  {['Overview', 'Features', 'Documentation', 'Support'].map((item) => (
+                    <li key={item} className="text-sm">
+                      <a href="/some-path" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          
+          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-sm">© 2024 FintechApp. All rights reserved.</p>
+            <div className="flex space-x-4 mt-4 md:mt-0">
+              <a href="/terms" className="text-gray-400 hover:text-white transition-colors">Terms</a>
+              <a href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">Privacy</a>
+              <a href="/security" className="text-gray-400 hover:text-white transition-colors">Security</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+} can you add reviews over here make section just before   Trusted by Financial Institutions Worldwide, this is reviews.tsx/* eslint-disable @next/next/no-img-element */
+import { cn } from "@/lib/utils";
+import { Marquee } from "@/components/magicui/marquee"; // Update the path to the correct location
+
+const reviews = [
+  {
+    name: "Sarah Thompson",
+    username: "@sarah_fx",
+    body: "This platform revolutionized how I manage cross-border transactions. Execution speeds are unmatched!",
+    img: "https://avatar.vercel.sh/sarah",
+  },
+  {
+    name: "Raj Patel",
+    username: "@raj_fintech",
+    body: "Best forex rates I've found with real-time market analytics. Essential for my trading strategy.",
+    img: "https://avatar.vercel.sh/raj",
+  },
+  {
+    name: "Emily Chen",
+    username: "@emily_invest",
+    body: "Institutional-grade tools with retail accessibility. Saved 1.2% on currency conversions last quarter.",
+    img: "https://avatar.vercel.sh/emily",
+  },
+  {
+    name: "Michael O'Connor",
+    username: "@mike_fxpro",
+    body: "API integration simplified our global payroll system. 24/7 support team is phenomenal.",
+    img: "https://avatar.vercel.sh/michael",
+  },
+  {
+    name: "Fatima Al-Maktoum",
+    username: "@fatima_finance",
+    body: "Multi-currency accounts with instant settlements. Game changer for our e-commerce business.",
+    img: "https://avatar.vercel.sh/fatima",
+  },
+  {
+    name: "David Yamamoto",
+    username: "@david_trading",
+    body: "Hedging tools protected us during market volatility. Execution is flawless every time.",
+    img: "https://avatar.vercel.sh/david",
+  },
+];
+
+const firstRow = reviews.slice(0, 2);
+const secondRow = reviews.slice(2, 4);
+const thirdRow = reviews.slice(4, 6);
+const fourthRow = reviews.slice(0, 2);
+
+const ReviewCard = ({
+  img,
+  name,
+  username,
+  body,
+}: {
+  img: string;
+  name: string;
+  username: string;
+  body: string;
+}) => {
+  return (
+    <figure
+      className={cn(
+        "relative h-full w-fit sm:w-48 cursor-pointer overflow-hidden rounded-xl border p-4",
+        "border-blue-500/20 bg-gradient-to-b from-blue-50/10 to-blue-100/5",
+        "dark:border-cyan-500/20 dark:from-slate-900/10 dark:to-slate-800/5",
+        "hover:shadow-lg transition-all duration-300"
+      )}
+    >
+      <div className="flex flex-row items-center gap-2">
+        <img className="rounded-full w-10 h-10" alt="" src={img} />
+        <div className="flex flex-col">
+          <figcaption className="text-sm font-medium dark:text-cyan-100 text-blue-900">
+            {name}
+          </figcaption>
+          <p className="text-xs font-medium dark:text-cyan-400/60 text-blue-600/80">
+            {username}
+          </p>
+        </div>
+      </div>
+      <blockquote className="mt-2 text-sm dark:text-gray-200 text-gray-700">
+        {body}
+      </blockquote>
+    </figure>
+  );
+};
+
+export function FinancialReviewsMarquee() {
+  return (
+    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-950 dark:to-slate-900 [perspective:1000px]">
+      <h3 className="text-3xl font-bold text-center mb-8 dark:text-cyan-100 text-blue-900">
+        Trusted by Financial Professionals
+      </h3>
+      <div className="relative flex h-96 w-full flex-row items-center justify-center gap-4 overflow-hidden">
+        <div
+          className="flex flex-row items-center gap-4"
+          style={{
+            transform:
+              "translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)",
+          }}
+        >
+          <Marquee pauseOnHover vertical className="[--duration:25s]">
+            {firstRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:25s]" vertical>
+            {secondRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:25s]" vertical>
+            {thirdRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee pauseOnHover className="[--duration:25s]" vertical>
+            {fourthRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+        </div>
+
+        {/* Gradient overlays */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-blue-50 dark:from-slate-950" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-blue-50 dark:from-slate-950" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-blue-50 dark:from-slate-950" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-blue-50 dark:from-slate-950" />
+      </div>
+    </div>
+  );
+}
+Okay, I need to add the reviews section just before the "Trusted by Financial Institutions Worldwide" section. Let me look at the existing code structure to find where that section is.
+
+In the Home component, the Partners section is the one with the ref partnersRef. So I need to insert the new reviews section right before that.
+
+First, I'll import the FinancialReviewsMarquee component from the reviews.tsx file. Let me check if the path is correct. The user provided the reviews.tsx code, so I'll assume it's in the right location. The import statement should be something like import { FinancialReviewsMarquee } from "@/components/main/FinancialReviews"; but I'll adjust the path as needed.
+
+Next, I need to create a new section for the reviews. The user mentioned adding it just before the Partners section. So I'll place the new Reviews section right after the Benefits section and before the Partners section.
+
+Looking at the existing code, after the Benefits section (which is the motion.section with ref benefitsRef), there's a Forex section, then the Partners section. Wait, no, the Forex section was added earlier. Let me check the structure again.
+
+Wait, in the original code provided, after the Benefits section, there's a Partners section. Wait, no, let me look again:
+
+The sections in order are:
+
+1. Hero Section
+
+2. Features Section
+
+3. Forex Section
+
+4. Benefits Section
+
+5. Partners Section
+
+6. Features Highlight Section
+
+7. Footer
+
+So the user wants the Reviews section just before the Partners section. That means after the Benefits section and before the Partners section.
+
+Wait, in the original code, after the Benefits section comes the Partners section. So I need to insert the Reviews section between the Benefits and Partners sections.
+
+But in the current code, after the Benefits section, there's the Partners section. So I'll add the Reviews section right after the closing tag of the Benefits section and before the Partners section.
+
+Now, the Reviews section should be a motion.section similar to others, with scroll effects. Let's see how other sections are structured.
+
+For example, the Features section has a ref, uses useScroll and useTransform for animations. The Reviews section should also have similar scroll-based animations.
+
+I'll create a new motion.section for the Reviews. Let's set up the ref, scroll progress, and animation properties.
+
+First, create a reviewsRef using useRef. Then, set up the scrollYProgress for the reviews section:
+
+const { scrollYProgress: reviewsScrollProgress } = useScroll({
+
+target: reviewsRef,
+
+offset: ["start end", "end start"]
+
+});
+
+Then, define the opacity and y transforms:
+
+const reviewsOpacity = useTransform(reviewsScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+const reviewsY = useTransform(reviewsScrollProgress, [0, 0.2], [50, 0]);
+
+Also, maybe a blur effect like other sections:
+
+const reviewsBlur = useTransform(reviewsScrollProgress, [0, 0.2], ['blur(20px)', 'blur(0px)']);
+
+Then, in the JSX, add the motion.section with these styles:
+
+<motion.section
+
+ref={reviewsRef}
+
+style={{
+
+opacity: reviewsOpacity,
+
+y: reviewsY,
+
+filter: reviewsBlur
+
+}}
+
+className="relative py-24 bg-gray-100 dark:bg-gray-800 z-10"
+
+>
+
+<FinancialReviewsMarquee />
+
+</motion.section>
+
+I need to make sure that the ref is added to the useRef declarations at the top. So in the Home component, add:
+
+const reviewsRef = useRef<HTMLDivElement>(null);
+
+And include it in the list of refs.
+
+Wait, looking at the original code, the useRef declarations are:
+
+const mainRef = useRef<HTMLDivElement>(null);
+
+const featuresRef = useRef<HTMLDivElement>(null);
+
+const benefitsRef = useRef<HTMLDivElement>(null);
+
+const partnersRef = useRef<HTMLDivElement>(null);
+
+const forexRef = useRef<HTMLDivElement>(null);
+
+So I need to add:
+
+const reviewsRef = useRef<HTMLDivElement>(null);
+
+Then, in the JSX, after the Benefits section, insert the Reviews section.
+
+Wait, in the current code, after the Benefits section, there's the Partners section. So the structure would be:
+
+...
+
+</motion.section> {/* Benefits section closing tag */}
+
+{/* New Reviews Section */}
+
+<motion.section ...>
+
+<FinancialReviewsMarquee />
+
+</motion.section>
+
+{/* Partners Section */}
+
+<motion.section ref={partnersRef} ...>
+
+...
+
+So inserting the Reviews section right after the Benefits section and before the Partners section.
+
+But I should check if there are any existing scroll effects or overlaps. The Partners section uses partnersRef and its own scrollYProgress. The new Reviews section should have its own ref and scroll handling.
+
+Also, the className for the Reviews section might need to adjust the background color to fit the design. The FinancialReviewsMarquee component has a gradient background, so maybe the section's background can be a solid color or another gradient.
+
+Looking at the FinancialReviewsMarquee component, it has a background gradient from blue-50 to cyan-50 in light mode and slate-950 to slate-900 in dark mode. So the parent section might not need a background, or perhaps a contrasting one.
+
+But in the code provided, the FinancialReviewsMarquee is wrapped in a div with a gradient background. So maybe the parent section can have a padding but no background, letting the FinancialReviewsMarquee handle its own background.
+
+Alternatively, adjust the parent section's background to match. Let's see the existing sections:
+
+- Features Section: bg-gray-50 dark:bg-gray-900
+
+- Forex Section: bg-slate-100 dark:bg-slate-950
+
+- Benefits Section: bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950
+
+- Partners Section: has a gradient background
+
+- Features Highlight Section: bg-gray-50 dark:bg-gray-900
+
+So for the Reviews section, perhaps a light/dark background that complements the FinancialReviewsMarquee's internal gradient. The FinancialReviewsMarquee's outer div has from-blue-50 to-cyan-50 in light mode, so the parent section could have a white or light blue background. Alternatively, let the FinancialReviewsMarquee handle the background, and the parent section just provides padding.
+
+In the FinancialReviewsMarquee component, the outer div has classes bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-950 dark:to-slate-900. So the parent section can have a className that adds padding, like py-24, and maybe a background that matches, but perhaps it's redundant. However, to ensure the component is properly spaced, the parent section should have padding.
+
+So the Reviews section's JSX would be:
+
+<motion.section
+
+ref={reviewsRef}
+
+style={{
+
+opacity: reviewsOpacity,
+
+y: reviewsY,
+
+filter: reviewsBlur
+
+}}
+
+className="relative py-24 z-10"
+
+>
+
+<FinancialReviewsMarquee />
+
+</motion.section>
+
+This way, the FinancialReviewsMarquee's own background gradients will show, and the parent section provides the vertical padding.
+
+But wait, the FinancialReviewsMarquee has a height of h-[500px], so maybe the parent section's padding is unnecessary. Alternatively, adjust the padding as needed.
+
+Alternatively, the parent section could have a className of "relative z-10" without padding, and the FinancialReviewsMarquee handles its own height and margins.
+
+But looking at the existing sections, they all have py-24 or similar for vertical padding. So adding py-24 to the Reviews section would make it consistent.
+
+Testing this, the FinancialReviewsMarquee has a height of h-[500px], so with py-24 (96px top and bottom), the total height would be 500px + 96px*2. That might be too much. Maybe adjust the padding to py-12 or similar.
+
+Alternatively, let the FinancialReviewsMarquee component handle its own spacing. But to maintain consistency with other sections, perhaps the parent section should have some padding.
+
+Alternatively, the FinancialReviewsMarquee component could be modified to include its own padding, but as per the provided code, it has a className of "relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-xl ...".
+
+So the parent section can have className="relative z-10" without padding, allowing the FinancialReviewsMarquee to take full height. But in the current setup, other sections like Features and Benefits have padding. So perhaps adding py-24 to the Reviews section would be better for spacing.
+
+But I'll proceed with adding the Reviews section with py-24 and let the FinancialReviewsMarquee's height adjust within that.
+
+Putting it all together:
+
+After the Benefits section, add:
+
+{/* Reviews Section */}
+
+<motion.section
+
+ref={reviewsRef}
+
+style={{
+
+opacity: reviewsOpacity,
+
+y: reviewsY,
+
+filter: reviewsBlur
+
+}}
+
+className="relative py-24 z-10"
+
+>
+
+<FinancialReviewsMarquee />
+
+</motion.section>
+
+Then, the Partners section follows.
+
+Also, make sure to add the reviewsRef to the useRef declarations and the corresponding scrollYProgress, opacity, y, and blur variables.
+
+In the Home component's useRef section:
+
+const reviewsRef = useRef<HTMLDivElement>(null);
+
+Then, in the scrollYProgress setup:
+
+const { scrollYProgress: reviewsScrollProgress } = useScroll({
+
+target: reviewsRef,
+
+offset: ["start end", "end start"]
+
+});
+
+Then define the transforms:
+
+const reviewsOpacity = useTransform(reviewsScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+const reviewsY = useTransform(reviewsScrollProgress, [0, 0.2], [50, 0]);
+
+const reviewsBlur = useTransform(reviewsScrollProgress, [0, 0.2], ['blur(20px)', 'blur(0px)']);
+
+These should be added alongside the other useTransform variables.
+
+Now, check if the Partners section's offset needs adjustment. The Partners section uses scrollYProgress with offset ["start end", "end start"], but since the Reviews section is added before it, the Partners section's offset might still be correct.
+
+Testing the flow: as the user scrolls, the Reviews section comes into view after the Benefits section, with fade-in and blur effects, then the Partners section follows.
+
+Finally, ensure that the FinancialReviewsMarquee component is imported correctly at the top of the Home component:
+
+import { FinancialReviewsMarquee } from "@/components/main/FinancialReviews";
+
+Assuming the reviews.tsx is located at components/main/FinancialReviews.tsx.
+
+So, putting all these changes together, the Reviews section should now be inserted before the Partners section with appropriate animations.
+
+Here's how to add the reviews section before the "Trusted by Financial Institutions Worldwide" section:
+
+First, import the FinancialReviewsMarquee component at the top:
+
+tsx
+import { FinancialReviewsMarquee } from "@/components/main/FinancialReviews";
+Add the reviews ref and scroll animations in the Home component:
+
+tsx
+// Add to existing useRef declarations
+const reviewsRef = useRef<HTMLDivElement>(null);
+
+// Add scroll progress for reviews section
+const { scrollYProgress: reviewsScrollProgress } = useScroll({
+  target: reviewsRef,
+  offset: ["start end", "end start"]
+});
+
+// Add transform values
+const reviewsOpacity = useTransform(reviewsScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+const reviewsY = useTransform(reviewsScrollProgress, [0, 0.2], [50, 0]);
+const reviewsBlur = useTransform(reviewsScrollProgress, [0, 0.2], ['blur(20px)', 'blur(0px)']);
+Insert the reviews section before the Partners section:
+
+tsx
+{/* Reviews Section */}
+<motion.section 
+  ref={reviewsRef}
+  style={{ 
+    opacity: reviewsOpacity,
+    y: reviewsY,
+    filter: reviewsBlur
+  }}
+  className="relative z-10 py-24 bg-gradient-to-b from-blue-50 to-cyan-50 dark:from-slate-950 dark:to-slate-900"
+>
+  <FinancialReviewsMarquee />
+</motion.section>
+
+{/* Partners Section with Parallax Gradient */}
+<motion.section 
+  ref={partnersRef}
+  className="relative min-h-screen flex items-center justify-center"
+>
+  {/* ... existing partners content ... */}
+</motion.section>
+This will create a smooth transition where the reviews section fades in with a parallax effect as users scroll down, followed by the partners section. The reviews component includes a 3D perspective marquee effect with professional testimonials specific to financial services.
+
+The section includes:
+
+Scroll-triggered fade and blur effects
+
+Vertical parallax movement
+
+Custom gradient background
+
+Responsive design for all screen sizes
+
+Dark mode support
+
+Smooth animations between sections
+
+Make sure the FinancialReviewsMarquee component is properly imported from your components directory. The section will appear after the benefits section and before the trusted partners section with appropriate spacing and visual hierarchy.
+
+'use client';
+import { Stars } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import React, { useEffect } from "react";
+import {
+  useMotionTemplate,
+  useMotionValue,
+  motion,
+  animate,
+} from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { TextAnimate } from "@/components/magicui/text-animate";
+
+const COLORS_TOP = ["#1E67C6", "#13FFAA", "#0D9488", "#0369A1"];
+
+const FintechHero = () => {
+  const color = useMotionValue(COLORS_TOP[0]);
+  
+  useEffect(() => {
+    animate(color, COLORS_TOP, {
+      ease: "easeInOut",
+      duration: 10,
+      repeat: Number.POSITIVE_INFINITY,
+      repeatType: "mirror",
+    });
+  }, [color]);
+
+  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
+
+  return (
+    <motion.section
+      style={{ backgroundImage }}
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-gray-950 px-4 py-24 text-gray-200"
+    >
+      <div className="relative z-10 max-w-7xl mx-auto text-center">
+        {/* Badge */}
+        <div className="mb-6">
+          <TextAnimate
+            by="character"
+            animation="blurIn"
+            delay={0.2}
+            className="inline-block rounded-full bg-gray-600/50 px-4 py-2 text-sm"
+          >
+            Next-Gen  Financial Platform
+          </TextAnimate>
+        </div>
+
+        {/* Main Heading */}
+        <h1 className="max-w-4xl mx-auto bg-gradient-to-br from-blue-400 to-cyan-400 bg-clip-text text-4xl font-medium leading-tight text-transparent sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
+          <TextAnimate by="word" animation="blurIn" delay={0.4}>
+            AI-Powered Financial Solutions Built on Secure Blockchain
+          </TextAnimate>
+        </h1>
+
+        {/* Features List */}
+        <div className="my-8 space-y-4 max-w-2xl mx-auto">
+          {[
+            "Cloud-Based Financial Infrastructure",
+            "Blockchain-Secured Transactions",
+            "AI-Driven Market Predictions"
+          ].map((feature, index) => (
+            <div key={feature} className="flex items-center justify-center gap-2">
+              <span className="text-cyan-400">✦</span>
+              <TextAnimate 
+                by="word" 
+                animation="blurIn" 
+                delay={0.6 + index * 0.2}
+              >
+                {feature}
+              </TextAnimate>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA Button */}
+        <div className="mt-8">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group flex items-center gap-2 rounded-lg bg-gray-950/10 px-6 py-3 text-lg font-medium transition-colors hover:bg-gray-950/50 mx-auto"
+          >
+            <TextAnimate animation="blurIn" delay={1.2}>
+              Get Started
+            </TextAnimate>
+            <ArrowRight className="transition-transform group-hover:rotate-45 group-active:rotate-90" />
+          </motion.button>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm max-w-6xl mx-auto">
+          {[
+            { title: "256-bit Encryption", subtitle: "Bank-grade security" },
+            { title: "AI Analytics", subtitle: "Real-time insights" },
+            { title: "Cloud Native", subtitle: "Global scalability" }
+          ].map((stat, index) => (
+            <div key={stat.title} className="border-l-2 border-cyan-400 pl-3 text-left">
+              <TextAnimate animation="blurIn" delay={1.4 + index * 0.2}>
+                <h3 className="text-cyan-400">{stat.title}</h3>
+                <p className="text-gray-400 mt-1">{stat.subtitle}</p>
+              </TextAnimate>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Star Background */}
+      <div className="absolute inset-0 z-0">
+        <Canvas>
+          <Stars radius={100} count={3000} factor={3} fade speed={1} />
+        </Canvas>
+      </div>
+    </motion.section>
+  );
+};
+
+export default FintechHero; fix get started button , provide animation
+Okay, let me try to figure out how to fix the "Get Started" button animation in the FintechHero component. The user mentioned that the button needs an animation, so I need to look at the current code and see what's missing or could be improved.
+
+First, looking at the existing button code. The button is a motion.button component from Framer Motion. It has whileHover and whileTap props for scale animations. The TextAnimate component wraps the "Get Started" text with a blurIn animation and a delay of 1.2 seconds. The ArrowRight icon has a hover effect that rotates it 45 degrees.
+
+The user wants to fix the button's animation. Maybe the current animations aren't smooth enough, or perhaps they want more elaborate effects. Let me think about common button animations that could enhance the UI.
+
+One idea is to add a background gradient that animates on hover. The button currently has a static background color. Using Framer Motion's useMotionTemplate and useMotionValue could create a dynamic gradient that changes when hovered. Also, adding a subtle shine effect with a moving gradient could make the button more visually appealing.
+
+Another aspect is the arrow icon's animation. The current setup rotates the icon on hover, but maybe syncing that with the background animation would make it more cohesive. Additionally, adding a mask or overflow hidden to contain the background within the button's borders might improve the effect.
+
+I should also consider the button's initial state. Maybe the button should have an initial opacity or scale animation when the component loads, using the TextAnimate component's delay to coordinate the timing.
+
+Let me outline the steps:
+
+1. **Animate the background gradient on hover**: Use useMotionValue for the gradient's position and animate it when hovering. This creates a shine effect.
+
+2. **Enhance the arrow icon's animation**: Make the arrow move to the right along with the rotation, adding a translateX transform.
+
+3. **Add border and overflow masking**: Ensure the background effects are contained within the button's rounded borders using a div with overflow hidden.
+
+4. **Improve the hover and tap animations**: Adjust the scale and maybe add a slight y-axis movement for a more dynamic feel.
+
+5. **Synchronize animations**: Coordinate the background, text, and icon animations so they start and end together.
+
+Implementing these changes should make the button more interactive and visually engaging. I'll need to structure the button with nested divs for the background and content, applying the motion values and animations appropriately. Testing each part step by step will help ensure the effects work smoothly together.
+
+Here's an enhanced version of the "Get Started" button with smooth animations and hover effects:
+
+tsx
+{/* CTA Button */}
+<div className="mt-8">
+  <motion.button
+    whileHover={{ 
+      scale: 1.05,
+      y: -2
+    }}
+    whileTap={{ 
+      scale: 0.95,
+      y: 2 
+    }}
+    className="group relative overflow-hidden rounded-lg bg-gradient-to-br from-blue-600/30 to-cyan-500/30 px-6 py-3 backdrop-blur-lg transition-all duration-300 hover:shadow-[0_0_20px_-5px_rgba(34,211,238,0.3)] mx-auto"
+  >
+    {/* Animated background */}
+    <motion.div
+      initial={{ x: -100 }}
+      animate={{ x: 100 }}
+      transition={{
+        repeat: Infinity,
+        duration: 2.5,
+        ease: "linear",
+      }}
+      className="absolute inset-0 opacity-20"
+      style={{
+        background: `linear-gradient(90deg, transparent, rgba(34,211,238,0.4), transparent)`,
+      }}
+    />
+    
+    {/* Button content */}
+    <div className="relative flex items-center gap-2">
+      <TextAnimate 
+        animation="blurIn" 
+        delay={1.2}
+        className="text-lg font-medium bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+      >
+        Get Started
+      </TextAnimate>
+      <motion.div
+        initial={{ x: 0 }}
+        whileHover={{ 
+          x: 5,
+          rotate: 45
+        }}
+        transition={{ type: "spring", stiffness: 300 }}
+        className="inline-block"
+      >
+        <ArrowRight className="text-cyan-400 transition-all" />
+      </motion.div>
+    </div>
+  </motion.button>
+</div>
+Key improvements made:
+
+Layered Animations:
+
+Smooth scale and vertical movement on hover/tap
+
+Infinite shimmer effect with moving gradient overlay
+
+Coordinated text and icon animations
+
+Visual Enhancements:
+
+Gradient background with blur effect
+
+Glowing shadow on hover
+
+Text gradient that matches the overall color scheme
+
+Better icon animation with spring physics
+
+Performance:
+
+Optimized animation layers using motion.div
+
+Proper z-index stacking with relative positioning
+
+Efficient animation properties for smooth performance
+
+New Effects:
+
+Infinite shimmer animation in the background
+
+Spring-based arrow animation
+
+Text color gradient that matches the hero section
+
+Subtle vertical movement on interaction
+
+The button now has:
+
+A continuous subtle shine effect
+
+Smooth hover scaling and elevation
+
+Coordinated icon movement with rotation
+
+Gradient text that matches the hero heading
+
+Better visual hierarchy with backdrop blur
+
+Responsive tap states for mobile users
+
+These changes create a more polished and interactive button that maintains the fintech aesthetic while improving user engagement.
