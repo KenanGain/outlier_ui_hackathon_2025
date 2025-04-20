@@ -5,7 +5,8 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3+-06B6D4?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![VibeCoding Hackathon](https://img.shields.io/badge/Built%20For-VibeCoding%20Hackathon-orange?style=flat-square)](#)
 
-![Platform Preview](public/preview.jpg)
+![Platform Preview](https://github.com/KenanGain/outlier_ui_hackathon_2025/blob/main/images/Screenshot%202025-04-19%20215533.png?raw=true)
+
 
 ---
 
