@@ -187,19 +187,6 @@ Made with ❤️ by Kenan Gain
 🎉 This project was proudly built for VibeCoding Hackathon – Outliers UI Edition
 🔥 Showcasing cutting-edge fintech with 3D AI dashboards, blazing performance & aesthetic design!
 
-yaml
-Copy
-Edit
-
----
-
-Let me know if you want to:
-- Embed a live demo link
-- Add shields for CI/CD, test coverage, or analytics
-- Include animated preview (GIF)
-- Link to your DevPost or Hackathon submission page
-
-
 
 ```
 ## 🧑‍💻 Author & Socials
