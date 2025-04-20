@@ -20,6 +20,12 @@
 
 ---
 
+## 🧠 AI & LLM Tools Used
+
+- **DeepSeek** – For real-time inference and prompt-based model execution
+- **GitHub Copilot** – For AI-assisted coding and suggestions within VS Code
+  
+
 ## 🛠 Technologies
 
 ### Frontend
@@ -192,4 +198,19 @@ Let me know if you want to:
 - Include animated preview (GIF)
 - Link to your DevPost or Hackathon submission page
 
+
+
+## 🧑‍💻 Author & Socials
+
+Made with ❤️ by **Kenan Gain**
+
+- 🌐 **Portfolio**: [https://www.kenangain.com](https://www.kenangain.com)
+- 📺 **YouTube**: [@KnightGamer87](https://www.youtube.com/@KnightGamer87)
+- 🐱 **GitHub**: [KenanGain](https://github.com/KenanGain)
+- 💼 **LinkedIn**: [Kenan Gain](https://www.linkedin.com/in/kenan-gain-33048518a/)
+- 📷 **Instagram**: [@knightgamer87](https://www.instagram.com/knightgamer87/)
+- 🐦 **Twitter/X**: [@KenanGain](https://twitter.com/KenanGain)
+- 🎧 **Spotify Playlist**: [My Creator Playlist](https://open.spotify.com/playlist/xyz) *(replace with real link if needed)*
+
 Happy hacking, Kenan! 💻🚀
+
